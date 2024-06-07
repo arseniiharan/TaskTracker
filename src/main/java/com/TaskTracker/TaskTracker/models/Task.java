@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -12,27 +13,22 @@ import java.util.List;
 @Data
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", unique = true)
+    private UUID id;
 
-    @Column(name="task_name")
+    @Column(name = "task_name")
     private String taskName;
 
-    @Column(name="task_start_date")
+    @Column(name = "task_start_date")
     private String startDate;
 
-    @Column(name="task_end_date")
+    @Column(name = "task_end_date")
     private String endDate;
 
-    @Column(name="task_importance")
+    @Column(name = "task_importance")
     private String taskImportance;
 
-    @ManyToMany
-    @JoinTable(
-            name = "tasks_teams",
-            joinColumns = @JoinColumn(name = "tasks_id"),
-            inverseJoinColumns = @JoinColumn(name = "team_id")
-    )
+    @ManyToMany(mappedBy = "tasks")
     private List<Team> teams;
 }

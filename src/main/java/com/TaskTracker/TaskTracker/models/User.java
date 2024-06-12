@@ -30,16 +30,19 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name="name")
-    public String name;
+    private String name;
 
     @Column(name="surname")
-    public String surname;
+    private String surname;
 
     @Column(name="job_title")
-    public String jobTitle;
+    private String jobTitle;
 
     @Column(name = "team_leader")
-    public boolean teamLeader;
+    private boolean teamLeader;
+
+    @Column(name = "activation_code")
+    private String activationCode;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

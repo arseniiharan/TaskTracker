@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByEmail(String email);
     @Query("SELECT u FROM User u JOIN u.teams t WHERE t.id = :teamId")
     List<User> getAllUsersWithTeam(@Param("teamId") UUID teamId);
+    Optional<User> findByActivationCode(String activationCode);
 }

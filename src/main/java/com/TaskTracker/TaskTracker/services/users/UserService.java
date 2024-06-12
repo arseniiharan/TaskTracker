@@ -13,6 +13,7 @@ import java.util.List;
 
 public interface UserService {
     UserResponseDTO createUser(UserRegistrationRequestDTO userRegistrationRequestDTO) throws UserAlreadyExistsException;
+    void activateUser(String activationCode) throws UserNeverExistedException;
     UserResponseDTO userFindByEmail(String email) throws UserNeverExistedException;
     List<UserResponseDTO> usersFindByTeam(String teamName) throws TeamNeverExistedException, UserNotInTeamException;
 }

@@ -5,14 +5,12 @@ import com.TaskTracker.TaskTracker.DTO.users.UserLoginResponseDTO;
 import com.TaskTracker.TaskTracker.DTO.users.UserRegistrationRequestDTO;
 import com.TaskTracker.TaskTracker.DTO.users.UserResponseDTO;
 import com.TaskTracker.TaskTracker.exceptions.user.UserAlreadyExistsException;
+import com.TaskTracker.TaskTracker.exceptions.user.UserNeverExistedException;
 import com.TaskTracker.TaskTracker.security.AuthService;
 import com.TaskTracker.TaskTracker.services.users.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -36,5 +34,17 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public UserLoginResponseDTO login(@RequestBody UserLoginRequestDTO userLoginRequestDTO) {
         return authService.authenticate(userLoginRequestDTO);
+    }
+
+    @PostMapping("/activate/{code}")
+    public ResponseEntity<?> activate(@PathVariable String code) {
+        try {
+            userService.activateUser(code);
+            return ResponseEntity.ok("Email activated successfully");
+        } catch (UserNeverExistedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Bad request");
+        }
     }
 }

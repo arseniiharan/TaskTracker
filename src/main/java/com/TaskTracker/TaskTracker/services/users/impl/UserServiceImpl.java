@@ -56,17 +56,14 @@ public class UserServiceImpl implements UserService {
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format(
-                    "Greetings, %s. \n"
+        String message = String.format(
+                "Greetings, %s. \n"
                             + "Welcome to Taskonauts. Please, visit the next link to activate your email: \n"
                             + "http://localhost:8080/activate/%s",
-                    user.getName(),
-                    user.getActivationCode()
-            );
+                user.getName(),
+                user.getActivationCode());
 
-            mailService.sendActiveMail(user.getEmail(), "Activation code", message);
-        }
+                mailService.sendActiveMail(user.getEmail(), "Activation code", message);
 
         return userMapper.toDto(user);
     }

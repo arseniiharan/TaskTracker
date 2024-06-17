@@ -27,7 +27,7 @@ public class AuthenticationController {
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Bad request");
+            return ResponseEntity.badRequest().body("Bad request: " + e.getMessage());
         }
     }
 

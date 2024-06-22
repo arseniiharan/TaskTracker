@@ -3,7 +3,6 @@ package com.TaskTracker.TaskTracker.services.users.impl;
 import com.TaskTracker.TaskTracker.DTO.users.UserRegistrationRequestDTO;
 import com.TaskTracker.TaskTracker.DTO.users.UserResponseDTO;
 import com.TaskTracker.TaskTracker.exceptions.teams.TeamNeverExistedException;
-import com.TaskTracker.TaskTracker.exceptions.teams.UserNotInTeamException;
 import com.TaskTracker.TaskTracker.exceptions.user.UserAlreadyExistsException;
 import com.TaskTracker.TaskTracker.exceptions.user.UserNeverExistedException;
 import com.TaskTracker.TaskTracker.mappers.UserMapper;
@@ -15,7 +14,6 @@ import com.TaskTracker.TaskTracker.repositories.TeamRepository;
 import com.TaskTracker.TaskTracker.repositories.UserRepository;
 import com.TaskTracker.TaskTracker.services.mails.MailService;
 import com.TaskTracker.TaskTracker.services.users.UserService;
-import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,12 +56,12 @@ public class UserServiceImpl implements UserService {
 
         String message = String.format(
                 "Greetings, %s. \n"
-                            + "Welcome to Taskonauts. Please, visit the next link to activate your email: \n"
-                            + "http://localhost:8080/activate/%s",
+                        + "Welcome to Taskonauts. Please, visit the next link to activate your email: \n"
+                        + "http://localhost:8080/activate/%s",
                 user.getName(),
                 user.getActivationCode());
 
-                mailService.sendActiveMail(user.getEmail(), "Activation code", message);
+        mailService.sendActiveMail(user.getEmail(), "Activation code", message);
 
         return userMapper.toDto(user);
     }

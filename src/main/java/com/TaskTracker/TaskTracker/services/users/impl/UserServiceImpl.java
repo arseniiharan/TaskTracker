@@ -98,4 +98,13 @@ public class UserServiceImpl implements UserService {
         }
         return userResponseDTOList;
     }
+
+    @Override
+    @Transactional
+    public void deleteUser(String email) throws UserNeverExistedException {
+        User user = userRepository.findByEmail(email)
+                        .orElseThrow(() -> new UserNeverExistedException("User doesn't exist"));
+
+        userRepository.delete(user);
+    }
 }
